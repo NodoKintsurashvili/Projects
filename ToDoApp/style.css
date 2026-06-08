@@ -1,0 +1,83 @@
+#app {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px;
+}
+
+#title,
+.task {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+}
+
+#task-title,
+.text {
+  flex: 2;
+  font-size: 20px;
+}
+
+#task-complete,
+.checkBoxDiv {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#remove,
+.buttonDiv {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#title {
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+.task {
+  border-bottom: 1px solid #eee;
+}
+
+.text {
+  word-break: break-word;
+  cursor: pointer;
+}
+
+.checkBox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.delButton {
+  background-color: red;
+  color: white;
+  width: 75px;
+  height: 30px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.1s;
+  align-items: center;
+  justify-content: center;
+}
+
+.delButton:hover {
+  background-color: rgba(250, 24, 24, 0.888);
+}
+
+.delButton:active {
+  transform: translate(2px, 2px);
+}
+
+
+.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+  color: grey;
+}
