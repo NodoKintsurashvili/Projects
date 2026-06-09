@@ -28,7 +28,7 @@ A fullstack task manager built with **FastAPI**, **PostgreSQL**, and **JavaScrip
 ## Project Structure
 
 ```
-task-manager/
+FullStack Task Manager/
 │   ├── main.py        # FastAPI routes (CRUD endpoints)
 │   ├── models.py      # SQLAlchemy Task model
 │   ├── database.py    # DB connection, SessionLocal, get_db()
@@ -36,9 +36,9 @@ task-manager/
 │   |── .env.example   # Example env file
 │   ├── index.html
 │   ├── style.css
-│   └── script.js
-└── requirements.txt
-└── README.md
+│   |── script.js
+    |── requirements.txt
+    └── README.md
 ```
 
 ---
@@ -49,23 +49,22 @@ task-manager/
 
 ```bash
 git clone https://github.com/NodoKintsurashvili/Projects.git
-cd task
+cd ./FullStack Task Manager
 ```
 
 ### 2. Set up the backend
 
 ```bash
-cd backend
 python -m venv venv
-venv\Scripts\activate        # Windows
-# source venv/bin/activate   # Mac/Linux
+venv\Scripts\activate        
+
 
 pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv
 ```
 
 ### 3. Configure environment variables
 
-Create a `.env` file in the `backend/` folder based on `.env.example`:
+Create a `.env` file based on `.env.example`:
 
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/taskdb
@@ -99,10 +98,10 @@ Open `frontend/index.html` directly in your browser — no build step needed.
 
 ## Screenshots
 
-> _Add a screenshot of the UI here_
+
 
 ---
 
 ## Author
 
-Made by **Nodo** — Junior Backend Developer
+Made by **Nodar Kintsurashvili** — Junior Backend Developer
