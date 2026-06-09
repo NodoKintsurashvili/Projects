@@ -1,6 +1,6 @@
 from typing import Dict, Tuple, Set
 
-class DeterministicFiniteAutomaton:
+class DeterministicFiniteAutomata:
     def __init__(self):
         self.states: Set[str] = set()
         self.start_state: str = ""
@@ -38,7 +38,7 @@ class DeterministicFiniteAutomaton:
         return current_state in self.final_states
 
 def main():
-    dfa = DeterministicFiniteAutomaton()
+    dfa = DeterministicFiniteAutomata()
     
     print("--- Teach Automaton ---")
     states = input("Enter states (space separated): ").split()
