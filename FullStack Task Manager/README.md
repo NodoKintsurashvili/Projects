@@ -98,6 +98,7 @@ Open `frontend/index.html` directly in your browser — no build step needed.
 
 ## Screenshots
 
+<img width="781" height="503" alt="image" src="https://github.com/user-attachments/assets/38777b00-da85-4fc9-85c2-97c7380af09c" />
 
 
 ---
