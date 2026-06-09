@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from database import engine, get_db
@@ -8,13 +9,22 @@ from typing import Optional
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=["*"],
+  allow_methods=["*"],
+  allow_headers=["*"],
+)
+
+
+
 class TaskCreate(BaseModel):
   title: str
   completed: Optional[bool] = False
 
 @app.get("/tasks")
 def get_tasks(db: Session = Depends(get_db)):
-  return db.query(Task).all()
+  return db.query(Task).order_by(Task.id).all()
 
 
 @app.get("/tasks/{id}")
@@ -63,3 +73,5 @@ def delete_task(id: int, db: Session= Depends(get_db)):
   db.commit()
 
   return {"message": "Task deleted"}
+
+

@@ -1,5 +1,14 @@
 let tasks = []
 let currentFilter = "all"
+const API_URL = "http://127.0.0.1:8000/tasks"
+
+
+async function fetchTasks(){
+  const response = await  fetch(API_URL)
+  const data = await response.json()
+  tasks = data
+  render()  
+}
 
 function createElement(type, className, text){
   let el = document.createElement(type)
@@ -8,44 +17,37 @@ function createElement(type, className, text){
   return el
 }
 
-function changeState(checkBox, text){
-  text.classList.toggle("done", checkBox.checked)
-}
-
-function addTask(){
+async function addTask(){
   let input = document.getElementById("myInput")
   let value = input.value
+  if(value.trim() === "") return
 
-  if (value.trim() === "") return
-
-  tasks.push({
-    id: Date.now(),
-    text: value,
-    completed: false
+  await fetch(API_URL, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({title: value, completed: false})
   })
-
   input.value = ""
-  render()
+  fetchTasks()
 }
 
-function deleteTask(id){
-  tasks = tasks.filter(t => t.id !== id)
-  render()
-}
 
 function editTask(task, textElement){
   let input = createElement("input", "text")
-  input.value = task.text
+  input.value = task.title
 
   textElement.replaceWith(input)
 
   input.focus()
 
-  input.addEventListener("keyup", (e) => {
+  input.addEventListener("keyup", async (e) => {
     if(e.key === "Enter"){
-      task.text = input.value
-      task.completed = false
-      render()
+        await fetch(`${API_URL}/${task.id}`, {
+          method: "PUT",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({title: input.value, completed: task.completed})
+        })
+        fetchTasks();
     }
     if(e.key === "Escape"){
       render()
@@ -56,7 +58,10 @@ function editTask(task, textElement){
 function createTaskElement(task){
   let taskBox = createElement("div", "task")
 
-  let text = createElement("div", "text", task.text)
+  let text = createElement("div", "text", task.title)
+  if(task.completed){
+    text.classList.add("done")
+  }
   let checkBoxDiv = createElement("div", "checkBoxDiv")
   let checkBox = createElement("input", "checkBox")
   checkBox.type = "checkbox"
@@ -66,18 +71,22 @@ function createTaskElement(task){
   let button = createElement("button", "delButton", "Delete")
 
 
-  text.addEventListener("dblclick", () => {
+  text.addEventListener("dblclick", async () => {
     editTask(task, text)
   })
 
-  checkBox.addEventListener("change", () => {
-    task.completed = checkBox.checked
-    render()
+  checkBox.addEventListener("change", async () => {
+    text.classList.toggle("done", checkBox.checked)
+    await fetch(`${API_URL}/${task.id}`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({title: task.title, completed: checkBox.checked})
+    })
   })
 
-  button.addEventListener("click", () => {
-    tasks = tasks.filter(t => t.id !== task.id)
-    render()
+  button.addEventListener("click", async () => {
+    await fetch(`${API_URL}/${task.id}`, {method: "DELETE"})
+    fetchTasks()
   })
 
   checkBoxDiv.appendChild(checkBox)
@@ -96,6 +105,7 @@ function render(){
   let filtered = tasks
 
   if (currentFilter === "active"){
+    
     filtered = tasks.filter(t => !t.completed)
   }
 
@@ -107,6 +117,8 @@ function render(){
     app.appendChild(createTaskElement(task))
   })
 }
+
+fetchTasks();
 
 document.getElementById("add").addEventListener("click", addTask)
 
